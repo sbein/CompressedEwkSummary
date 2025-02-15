@@ -1,0 +1,85 @@
+import ROOT
+ROOT.gROOT.SetBatch(1)
+import os
+
+tl = ROOT.TLatex()
+tl.SetNDC()
+    
+def main():
+    analyses = {}
+    analyses['SUS-21-006'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kRed]
+    analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kBlue]
+    analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kGreen + 2]
+    canvas = ROOT.TCanvas("c1", "SUSY EW Summary Plot", 800, 600)
+    print(canvas.GetTopMargin(), canvas.GetBottomMargin())
+    canvas.SetBottomMargin(0.15)
+    canvas.SetTopMargin(0.05)
+    
+    mg = ROOT.TMultiGraph()
+    legend = ROOT.TLegend(0.61, 0.63-0.07*(len(analyses)-3), 0.88, 0.88)
+    legend.SetBorderSize(0)
+    legend.SetFillStyle(0)
+    basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
+    base_hist = basefile.Get('basehist')
+    base_hist.GetYaxis().SetRangeUser(0,5.0)
+    base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
+    base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
+    print(base_hist.GetXaxis().GetTitle(), base_hist.GetYaxis().GetTitle())
+    for analysis in analyses:
+        path, exp, obj, color = analyses[analysis]
+        file = ROOT.TFile.Open(path)
+        gexp = file.Get(exp)
+        gobs = file.Get(obj)
+        gexp.SetLineColor(color)
+        gexp.SetLineStyle(2)
+        gexp.SetLineWidth(2)
+        gobs.SetLineColor(color)
+        gobs.SetLineStyle(1)
+        gobs.SetLineWidth(2)
+        mg.Add(gexp, "L")
+        mg.Add(gobs, "L")
+        legend.AddEntry(gexp, "%s Expected" % analysis, "l")
+        legend.AddEntry(gobs, "%s Observed" % analysis, "l")
+        file.Close()
+    canvas.cd()
+    base_hist.Draw()
+    mg.Draw("L")
+    legend.Draw()
+    #canvas.SetLogy()
+    #canvas.SetGrid()
+    stamp()
+    canvas.SaveAs("summary_ewk_compressed.pdf")
+    canvas.SaveAs("summary_ewk_compressed.png")
+    print ("Summary plot saved as 'summary_plot.pdf'")
+
+def stamp(lumi='138', datamc_ = 'data', showlumi = True, WorkInProgress = False):
+    cmsTextFont = 61
+    extraTextFont = 50
+    lumiTextSize = 0.6
+    lumiTextOffset = 0.2
+    cmsTextSize = 0.75
+    cmsTextOffset = 0.1
+    regularfont = 42
+    originalfont = tl.GetTextFont()
+    datamc = 'Data'
+    datamc = datamc_.lower()
+    tl.SetTextFont(cmsTextFont)
+    tl.SetTextSize(0.98*tl.GetTextSize())
+    tl.DrawLatex(0.12,0.9, 'CMS')
+    tl.SetTextFont(extraTextFont)
+    tl.SetTextSize(1.0/0.98*tl.GetTextSize())
+    xlab = 0.2
+    if ('mc' in datamc): thing = 'simulation'
+    else: thing = 'preliminary'
+    if WorkInProgress: tl.DrawLatex(xlab,0.9, ' internal')
+    else: tl.DrawLatex(xlab,0.9, thing)
+    tl.SetTextFont(regularfont)
+    tl.SetTextSize(0.81*tl.GetTextSize())    
+    thingy = ''
+    if showlumi: thingy+=str(lumi)+' fb^{-1} '+'(13 TeV)'
+    xthing = 0.667
+    if not showlumi: xthing+=0.13
+    tl.DrawLatex(xthing,0.9,thingy)
+    tl.SetTextSize(1.0/0.81*tl.GetTextSize())
+    
+main()
