@@ -8,7 +8,7 @@ tl.SetNDC()
 def main():
     analyses = {}
     analyses['SUS-21-006'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kRed]
-    analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kBlue]
+    analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', '', ROOT.kBlue]
     analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kGreen + 2]
     canvas = ROOT.TCanvas("c1", "SUSY EW Summary Plot", 800, 600)
     print(canvas.GetTopMargin(), canvas.GetBottomMargin())
@@ -21,7 +21,7 @@ def main():
     legend.SetFillStyle(0)
     basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
     base_hist = basefile.Get('basehist')
-    base_hist.GetYaxis().SetRangeUser(0,5.0)
+    base_hist.GetYaxis().SetRangeUser(0.135,5.0)
     base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
     base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
     print(base_hist.GetXaxis().GetTitle(), base_hist.GetYaxis().GetTitle())
@@ -29,17 +29,19 @@ def main():
         path, exp, obj, color = analyses[analysis]
         file = ROOT.TFile.Open(path)
         gexp = file.Get(exp)
-        gobs = file.Get(obj)
         gexp.SetLineColor(color)
         gexp.SetLineStyle(2)
         gexp.SetLineWidth(2)
-        gobs.SetLineColor(color)
-        gobs.SetLineStyle(1)
-        gobs.SetLineWidth(2)
-        mg.Add(gexp, "L")
-        mg.Add(gobs, "L")
-        legend.AddEntry(gexp, "%s Expected" % analysis, "l")
-        legend.AddEntry(gobs, "%s Observed" % analysis, "l")
+        mg.Add(gexp, "L")            
+        legend.AddEntry(gexp, "%s Expected" % analysis, "l")            
+        if obj=='': gobs = None
+        else: 
+            gobs = file.Get(obj)
+            gobs.SetLineColor(color)
+            gobs.SetLineStyle(1)
+            gobs.SetLineWidth(2)
+            mg.Add(gobs, "L")
+            legend.AddEntry(gobs, "%s Observed" % analysis, "l")
         file.Close()
     canvas.cd()
     base_hist.Draw()
