@@ -17,7 +17,7 @@ python3 summaryplot.py
 
 This produces a pdf and png of the summary plot. 
 
-To add more analyses, you ca
+To add more analyses, you can
 * Copy a needed ROOT file into a directory with a name like results_exo_18_002/root-file-name.root
 * Add a line to summaryplot.py with a new entry for the analysis,
 specifying names of the root file and expected and observed TGraph-based limit curves
