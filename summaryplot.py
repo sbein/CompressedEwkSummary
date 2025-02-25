@@ -8,7 +8,7 @@ tl.SetNDC()
 def main():
     analyses = {}
     analyses['SUS-21-006'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kRed]
-    analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', '', ROOT.kBlue]
+    analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kBlue]
     analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kGreen + 2]
     canvas = ROOT.TCanvas("c1", "SUSY EW Summary Plot", 800, 600)
     print(canvas.GetTopMargin(), canvas.GetBottomMargin())
