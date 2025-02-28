@@ -4,12 +4,22 @@ import os
 
 tl = ROOT.TLatex()
 tl.SetNDC()
+
+doHLLHC = True
     
 def main():
     analyses = {}
     analyses['SUS-21-006'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kRed]
     analyses['SUS-24-012'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kBlue]
-    analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kGreen + 2]
+    analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kGreen + 2]
+    cadis = list(analyses.keys())
+    cadis.reverse()
+    if doHLLHC:
+        for cadi in cadis:
+            analysis = analyses[cadi]
+            analysis[0] = analysis[0].replace('Run2','HLLHC')
+            analysis[2] = ''
+                
     canvas = ROOT.TCanvas("c1", "SUSY EW Summary Plot", 800, 600)
     print(canvas.GetTopMargin(), canvas.GetBottomMargin())
     canvas.SetBottomMargin(0.15)
@@ -19,27 +29,34 @@ def main():
     legend = ROOT.TLegend(0.61, 0.63-0.07*(len(analyses)-3), 0.88, 0.88)
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
-    basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
+    if doHLLHC: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
+    else: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
     base_hist = basefile.Get('basehist')
     base_hist.GetYaxis().SetRangeUser(0.135,4.0)
     base_hist.GetXaxis().SetRangeUser(99,210)    
+    if doHLLHC: 
+        base_hist.GetYaxis().SetRangeUser(0.135,5.2)
+        base_hist.GetXaxis().SetRangeUser(99,310)   
+        base_hist.GetYaxis().SetTitleOffset(1.0)     
     base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
     base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
     print(base_hist.GetXaxis().GetTitle(), base_hist.GetYaxis().GetTitle())
-    for analysis in analyses:
-        path, exp, obj, color = analyses[analysis]
+    for cadi in cadis:
+        analysis = analyses[cadi]
+        path, exp, obj, color = analysis
+        print('doing', analysis)
         file = ROOT.TFile.Open(path)
         gexp = file.Get(exp)
         gexp.SetLineColor(color)
-        gexp.SetLineStyle(2)
+        gexp.SetLineStyle(ROOT.kDashed)
         gexp.SetLineWidth(3)
-        mg.Add(gexp, "L")            
-        legend.AddEntry(gexp, "%s Expected" % analysis, "l")            
+        mg.Add(gexp)            
+        legend.AddEntry(gexp, "%s Expected" % cadi, "l")            
         if obj=='': gobs = None
         else: 
             gobs = file.Get(obj)
             gobs.SetLineColor(color)
-            gobs.SetLineStyle(1)
+            #gobs.SetLineStyle(1)
             gobs.SetLineWidth(3)
             mg.Add(gobs, "L")
             legend.AddEntry(gobs, "%s Observed" % analysis, "l")
@@ -50,10 +67,12 @@ def main():
     legend.Draw()
     #canvas.SetLogy()
     #canvas.SetGrid()
-    stamp()
-    canvas.SaveAs("summary_ewk_compressed.pdf")
-    canvas.SaveAs("summary_ewk_compressed.png")
-    print ("Summary plot saved as 'summary_plot.pdf'")
+    if doHLLHC: stamp(3000)
+    else: stamp()
+    plotstem = 'summary_ewk_compressed'+'_HLLHC'*doHLLHC
+    canvas.SaveAs(plotstem+".pdf")
+    canvas.SaveAs(plotstem+".png")
+    print ("Summary plot saved as {plotstem}'.pdf'")
 
 def stamp(lumi='138', datamc_ = 'data', showlumi = True, WorkInProgress = False):
     cmsTextFont = 61
