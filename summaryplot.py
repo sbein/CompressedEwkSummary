@@ -5,7 +5,7 @@ import os
 tl = ROOT.TLatex()
 tl.SetNDC()
 
-doHLLHC = True
+doHLLHC = False
     
 def main():
     analyses = {}
@@ -29,8 +29,8 @@ def main():
     legend = ROOT.TLegend(0.61, 0.63-0.07*(len(analyses)-3), 0.88, 0.88)
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
-    if doHLLHC: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
-    else: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
+    basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
+    #else: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
     base_hist = basefile.Get('basehist')
     base_hist.GetYaxis().SetRangeUser(0.135,4.0)
     base_hist.GetXaxis().SetRangeUser(99,210)    
@@ -59,7 +59,7 @@ def main():
             #gobs.SetLineStyle(1)
             gobs.SetLineWidth(3)
             mg.Add(gobs, "L")
-            legend.AddEntry(gobs, "%s Observed" % analysis, "l")
+            legend.AddEntry(gobs, "%s Observed" % cadi, "l")
         file.Close()
     canvas.cd()
     base_hist.Draw()
