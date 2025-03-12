@@ -5,7 +5,7 @@ import os
 tl = ROOT.TLatex()
 tl.SetNDC()
 
-doHLLHC = False
+doHLLHC = True
     
 def main():
     analyses = {}
@@ -35,8 +35,8 @@ def main():
     base_hist.GetYaxis().SetRangeUser(0.135,4.0)
     base_hist.GetXaxis().SetRangeUser(99,210)    
     if doHLLHC: 
-        base_hist.GetYaxis().SetRangeUser(0.135,5.2)
-        base_hist.GetXaxis().SetRangeUser(99,310)   
+        #base_hist.GetYaxis().SetRangeUser(0.135,4.3)
+        base_hist.GetXaxis().SetRangeUser(99,340)   
         base_hist.GetYaxis().SetTitleOffset(1.0)     
     base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
     base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
