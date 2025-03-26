@@ -43,14 +43,14 @@ def main():
     dummyExp.SetLineStyle(2)            # dashed
     dummyExp.SetLineColor(ROOT.kBlack)  # black line
     dummyExp.SetLineWidth(2)
-    legend00 = ROOT.TLegend(0.61, 0.54, 0.88, 0.69)
+    legend00 = ROOT.TLegend(0.62, 0.54, 0.89, 0.69)
     legend00.SetHeader("All limits at 95% CL", "L")  
     legend00.AddEntry(dummyObs, "Observed Limit", "l")
     legend00.AddEntry(dummyExp, "Expected Limit", "l")
     legend00.SetBorderSize(0)
     legend00.SetFillStyle(0)
     legend00.SetTextSize(0.03)
-    legend = ROOT.TLegend(0.61, 0.37-0.035*(len(analyses)-2), 0.88, 0.51+0.035*(len(analyses)-2)) #0.53
+    legend = ROOT.TLegend(0.62, 0.37-0.035*(len(analyses)-2), 0.89, 0.51+0.035*(len(analyses)-2)) #0.53
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)
