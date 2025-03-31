@@ -32,7 +32,7 @@ def main():
     mg = ROOT.TMultiGraph()
     #legend0 = ROOT.TLegend(0.12, 0.65, 0.20, 0.83)
     legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89)
-    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1},#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
+    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1},#tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1},#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
