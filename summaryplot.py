@@ -7,15 +7,15 @@ tl = ROOT.TLatex()
 tl.SetNDC()
 
 doHLLHC = False
-drawRadidativeBound = True
+drawRadiativeBound = True
     
 def main():
     analyses = {}
     #analyses['#splitline{SUS-21-006}{Disappearing Track}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
-    analyses['#splitline{2309.16823}{Disappearing Track}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
-    analyses['#splitline{SUS-24-012}{Isolated soft Track}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 kOrange-1
+    analyses['#splitline{Disappearing Track}{arXiv:2309.16823}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
+    analyses['#splitline{Isolated soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 kOrange-1
     #analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kRed]
-    analyses['#splitline{EXO-23-017}{Soft 2l and 3l}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
+    analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
     analysis_names = list(analyses.keys())
     analysis_names.reverse()
     if doHLLHC:
@@ -32,7 +32,7 @@ def main():
     mg = ROOT.TMultiGraph()
     #legend0 = ROOT.TLegend(0.12, 0.65, 0.20, 0.83)
     legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89)
-    legend0.SetHeader("#splitline{#bf{pp#rightarrow#chi^{0}_{2}#chi^{#pm}_{1} #chi^{0}_{2}#chi^{#mp}_{1} #chi^{+}_{1}#chi^{-}_{1} #chi^{#mp}_{1}#chi^{0}_{1} (Higgsino)}}{#bf{m(#chi^{0}_{2}) = m(#chi^{0}_{1}) + 2#Delta m(#chi^{#pm}_{1},#chi^{0}_{1})}}","L")
+    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}#tilde{#chi}^{#mp}_{1} #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1} #tilde{#chi}^{#mp}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
@@ -53,7 +53,7 @@ def main():
     legend00.SetBorderSize(0)
     legend00.SetFillStyle(0)
     legend00.SetTextSize(0.03)
-    legend = ROOT.TLegend(0.64, 0.37-0.035*(len(analyses)-2) -0.06, 0.91, 0.51+0.035*(len(analyses)-2)+0.02) #0.53
+    legend = ROOT.TLegend(0.635, 0.37-0.035*(len(analyses)-2) -0.06, 0.905, 0.51+0.035*(len(analyses)-2)+0.02) #0.53
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)
@@ -73,8 +73,8 @@ def main():
         #base_hist.GetYaxis().SetRangeUser(0.135,4.3)
         base_hist.GetXaxis().SetRangeUser(99,340)   
         base_hist.GetYaxis().SetTitleOffset(1.0)     
-    base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
-    base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
+    base_hist.GetXaxis().SetTitle('m_{#tilde{#tilde{#chi}}^{#pm}_{1}} [GeV]')
+    base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#tilde{#chi}}^{#pm}_{1},#tilde{#tilde{#chi}}^{0}_{1}) [GeV]')
     print(base_hist.GetXaxis().GetTitle(), base_hist.GetYaxis().GetTitle())
     first = True  # flag per il primo elemento
     for analysis_name in analysis_names:
@@ -136,15 +136,15 @@ def main():
     #mg.GetYaxis().SetTitleOffset(0.8)
     #mg.GetYaxis().SetMoreLogLabels(True)
     #mg.GetYaxis().SetNoExponent(True)
-    #mg.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
-    #mg.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
+    #mg.GetXaxis().SetTitle('m_{#tilde{#tilde{#chi}}^{#pm}_{1}} [GeV]')
+    #mg.GetYaxis().SetTitle('#Deltam(#tilde{#tilde{#chi}}^{#pm}_{1},#tilde{#tilde{#chi}}^{0}_{1}) [GeV]')
     #mg.Draw("AL")
     mg.Draw("L")
     legend0.Draw()
     legend00.Draw() 
     legend.Draw()
     #canvas.SetGrid()
-    if drawRadidativeBound:
+    if drawRadiativeBound:
         fsatoshi = ROOT.TFile('auxiliary/SatoshiDmChipmChi10.root')
         dmrad_chipm_chi10 = fsatoshi.Get('dmrad_chipm_chi10')
         dmrad_chipm_chi10.SetLineColor(ROOT.kRed) #kOrange+2
