@@ -13,7 +13,7 @@ def main():
     analyses = {}
     #analyses['#splitline{SUS-21-006}{Disappearing Track}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
     analyses['#splitline{Disappearing Track}{arXiv:2309.16823}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
-    analyses['#splitline{Isolated soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 kOrange-1
+    analyses['#splitline{Isolated Soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 kOrange-1
     #analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kRed]
     analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
     analysis_names = list(analyses.keys())
@@ -32,7 +32,7 @@ def main():
     mg = ROOT.TMultiGraph()
     #legend0 = ROOT.TLegend(0.12, 0.65, 0.20, 0.83)
     legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89)
-    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1},#tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1},#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
+    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, #tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
