@@ -2,20 +2,26 @@ import ROOT
 ROOT.gROOT.SetBatch(1)
 import os
 from array import array
+ROOT.gStyle.SetOptStat(0)
 
 tl = ROOT.TLatex()
 tl.SetNDC()
 
 doHLLHC = False
 drawRadiativeBound = True
-    
+
+
 def main():
     analyses = {}
-    #analyses['#splitline{SUS-21-006}{Disappearing Track}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
-    analyses['#splitline{Disappearing Track}{arXiv:2309.16823}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 kSpring+2
-    analyses['#splitline{Isolated Soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 kOrange-1
+    analyses['#splitline{Disappearing Track}{arXiv:2309.16823}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 
+    analyses['#splitline{Isolated Soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 
+    analyses['#splitline{Recursive Jigsaw}{SUS-23-004}'] = ['results_sus_23_004/B135_bugfix16_HinoN2C1Super_xsec_smooth_canv.root', 'gr_mid', 'gr_obs', ROOT.kGray]
     #analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kRed]
     analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
+    
+    if 'Recursive Jigsaw' in ','.join(list(analyses.keys())): xmax, ymax = 300, 100
+    else: xmax, ymax = 250, 5
+    
     analysis_names = list(analyses.keys())
     analysis_names.reverse()
     if doHLLHC:
@@ -45,28 +51,24 @@ def main():
     dummyExp.SetLineStyle(2)            # dashed
     dummyExp.SetLineColor(ROOT.kBlack)  # black line
     dummyExp.SetLineWidth(2)
-    legend00 = ROOT.TLegend(0.64, 0.54+0.03, 0.91, 0.69+0.03)
-    legend00.SetHeader("#scale[1.05]{#bf{All limits at 95% CL}}", "L")
-    #legend00.SetHeader("All limits at 95% CL", "L")  
-    legend00.AddEntry(dummyObs, "Observed Limit", "l")
-    legend00.AddEntry(dummyExp, "Expected Limit", "l")
-    legend00.SetBorderSize(0)
-    legend00.SetFillStyle(0)
-    legend00.SetTextSize(0.03)
-    legend = ROOT.TLegend(0.635, 0.37-0.035*(len(analyses)-2) -0.06, 0.905, 0.51+0.035*(len(analyses)-2)+0.02) #0.53
+    legend = ROOT.TLegend(0.635, 0.37-0.035*(len(analyses)-2) -0.06, 0.905, 0.65+0.035*(len(analyses)-2))
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)
+    legend.AddEntry(dummyObs, "Observed Limit", "l")
+    legend.AddEntry(dummyExp, "Expected Limit", "l")    
     basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
-    #else: basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_25Nov2024Observed4thabaseXSEC.root')
-    base_hist = basefile.Get('basehist')
-    base_hist.GetYaxis().SetRangeUser(0.2,5.0)
+    aux_hist = basefile.Get('basehist')
+    base_hist = ROOT.TH2F("","",aux_hist.GetXaxis().GetNbins(), aux_hist.GetXaxis().GetBinLowEdge(1),  aux_hist.GetXaxis().GetBinUpEdge(aux_hist.GetXaxis().GetNbins()),100*aux_hist.GetYaxis().GetNbins(), aux_hist.GetYaxis().GetBinLowEdge(1),  ymax)
+    matchHistos(base_hist, aux_hist)
+    base_hist.GetYaxis().SetRangeUser(0.135,100.0)
     base_hist.GetYaxis().SetNdivisions(505)
     base_hist.GetXaxis().SetNdivisions(505)
     base_hist.GetXaxis().SetLabelSize(0.0425)  
     base_hist.GetYaxis().SetLabelSize(0.0425)
     base_hist.GetXaxis().SetRangeUser(100,250)
-    base_hist.GetYaxis().SetTitleOffset(0.8)
+    if len(analyses)>3: base_hist.GetXaxis().SetRangeUser(100,300)
+    base_hist.GetYaxis().SetTitleOffset(0.9)
     base_hist.GetYaxis().SetMoreLogLabels(True)
     base_hist.GetYaxis().SetNoExponent(True)
     if doHLLHC: 
@@ -141,7 +143,7 @@ def main():
     #mg.Draw("AL")
     mg.Draw("L")
     legend0.Draw()
-    legend00.Draw() 
+    #legend00.Draw() 
     legend.Draw()
     #canvas.SetGrid()
     if drawRadiativeBound:
@@ -191,5 +193,18 @@ def stamp(lumi='129-138', datamc_ = 'data', showlumi = True, WorkInProgress = Fa
     if not showlumi: xthing+=0.13
     tl.DrawLatex(xthing,0.73,thingy)
     tl.SetTextSize(1.0/0.7*tl.GetTextSize())
-    
+   
+def matchHistos(base_hist, aux_hist):    
+    xax, yax = aux_hist.GetXaxis(), aux_hist.GetYaxis()
+    nx, ny = xax.GetNbins(), yax.GetNbins()
+    for m in dir(aux_hist):
+        if m.startswith("Get") and hasattr(base_hist, "Set" + m[3:]):
+            try: getattr(base_hist, "Set" + m[3:])(getattr(aux_hist, m)())
+            except: continue
+    for m in dir(xax):
+        if m.startswith("Get") and hasattr(base_hist.GetXaxis(), "Set" + m[3:]):
+            try: 
+                getattr(base_hist.GetXaxis(), "Set" + m[3:])(getattr(xax, m)())
+                getattr(base_hist.GetYaxis(), "Set" + m[3:])(getattr(yax, m)())
+            except: continue     
 main()
