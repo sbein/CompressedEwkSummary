@@ -27,3 +27,8 @@ python3 summaryplot.py
 ```
 You can add the results root file to the repo in a designated analysis folder. 
 
+The following updated script can better handle the higher luminosity projections. Ideally, it can just supercede the previous script, since it should also be fine for making the Run 2 versions, given the right flag is set. 
+```
+python3 summaryplot_projections.py
+```
+
