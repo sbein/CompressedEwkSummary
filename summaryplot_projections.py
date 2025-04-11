@@ -250,7 +250,7 @@ def main():
         legend.AddEntry(dmrad_chipm_chi10, "Radiative corrections", "l")
 
     if doHLLHC:
-        pass
+        stamp('','data',False)
     else:
         stamp()
 
