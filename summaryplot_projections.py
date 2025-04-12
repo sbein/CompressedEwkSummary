@@ -32,14 +32,14 @@ def main():
                 'exp':   'Exp_PureHiggsino_DTRun2',
                 'obs':   None,
                 'color': ROOT.kSpring+2,
-                'style': 8
+                'style': 5
             },
             '6000fb': {
                 'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
                 'exp':   'Exp_PureHiggsino_DTRun2',
                 'obs':   None,
                 'color': ROOT.kSpring+2,
-                'style': 6
+                'style': 8
             },            
         },
         '#splitline{Isolated Soft Track}{SUS-24-012}': {
@@ -62,14 +62,14 @@ def main():
                 'exp':   'Exp_PureHiggsino_SDPRun2',
                 'obs':   None,
                 'color': ROOT.kOrange-1,
-                'style': 8
+                'style': 5
             },
             '6000fb': {
                 'file':  'results_sus_24_012/PureHiggsino_SDPRun2_results6000infb.root',
                 'exp':   'Exp_PureHiggsino_SDPRun2',
                 'obs':   None,
                 'color': ROOT.kOrange-1,
-                'style': 6
+                'style': 8
             },
         },
         '#splitline{Soft 2l and 3l}{EXO-23-017}': {
