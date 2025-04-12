@@ -89,7 +89,7 @@ def main():
     if 'Recursive Jigsaw' in ','.join(all_labels):
         xmax, ymax = 300, 100
     else:
-        xmax, ymax = 550, 8
+        xmax, ymax = 480, 8
 
     # Reverse so the last one in dictionary is drawn on top
     all_labels.reverse()
@@ -99,8 +99,8 @@ def main():
     canvas.SetTopMargin(1.3)
     mg = ROOT.TMultiGraph()
 
-    legend = ROOT.TLegend(0.55, 0.45 - 0.035*(len(all_labels)-2) - 0.06,
-                          0.84, 0.85 + 0.035*(len(all_labels)-2))
+    legend = ROOT.TLegend(0.58, 0.45 - 0.035*(len(all_labels)-2) - 0.06,
+                          0.87, 0.85 + 0.035*(len(all_labels)-2))
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)    
