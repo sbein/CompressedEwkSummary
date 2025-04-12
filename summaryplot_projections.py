@@ -32,14 +32,14 @@ def main():
                 'exp':   'Exp_PureHiggsino_DTRun2',
                 'obs':   None,
                 'color': ROOT.kSpring+2,
-                'style': 6
+                'style': 8
             },
             '6000fb': {
                 'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
                 'exp':   'Exp_PureHiggsino_DTRun2',
                 'obs':   None,
                 'color': ROOT.kSpring+2,
-                'style': 3
+                'style': 6
             },            
         },
         '#splitline{Isolated Soft Track}{SUS-24-012}': {
@@ -62,14 +62,14 @@ def main():
                 'exp':   'Exp_PureHiggsino_SDPRun2',
                 'obs':   None,
                 'color': ROOT.kOrange-1,
-                'style': 6
+                'style': 8
             },
             '6000fb': {
                 'file':  'results_sus_24_012/PureHiggsino_SDPRun2_results6000infb.root',
                 'exp':   'Exp_PureHiggsino_SDPRun2',
                 'obs':   None,
                 'color': ROOT.kOrange-1,
-                'style': 3
+                'style': 6
             },
         },
         '#splitline{Soft 2l and 3l}{EXO-23-017}': {
@@ -99,8 +99,8 @@ def main():
     canvas.SetTopMargin(1.3)
     mg = ROOT.TMultiGraph()
 
-    legend = ROOT.TLegend(0.58, 0.45 - 0.035*(len(all_labels)-2) - 0.06,
-                          0.87, 0.85 + 0.035*(len(all_labels)-2))
+    legend = ROOT.TLegend(0.61, 0.45 - 0.035*(len(all_labels)-2) - 0.06,
+                          0.9, 0.85 + 0.035*(len(all_labels)-2))
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)    
@@ -245,7 +245,8 @@ def main():
         dmrad_chipm_chi10 = fsatoshi.Get('dmrad_chipm_chi10')
         dmrad_chipm_chi10.SetLineColor(ROOT.kRed)
         dmrad_chipm_chi10.SetLineWidth(2)
-        dmrad_chipm_chi10.SetLineStyle(ROOT.kDotted)
+        dmrad_chipm_chi10.SetLineStyle(ROOT.kDotted-1)
+        print('radiative style', ROOT.kDotted)
         dmrad_chipm_chi10.Draw('same')
         legend.AddEntry(dmrad_chipm_chi10, "Radiative corrections", "l")
 
