@@ -9,6 +9,7 @@ tl.SetNDC()
 
 doHLLHC = True
 drawRadiativeBound = True
+UseYR2018 = True
 
 def main():
     analyses = {
@@ -20,27 +21,27 @@ def main():
                 'color': ROOT.kSpring+2,
                 'style': 1
             },
-            '400fb': {
-                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results400infb.root',
-                'exp':   'Exp_PureHiggsino_DTRun2',
-                'obs':   None,
-                'color': ROOT.kSpring+2,
-                'style': 7
-            },
-            '3000fb': {
-                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results3000infb.root',
-                'exp':   'Exp_PureHiggsino_DTRun2',
-                'obs':   None,
-                'color': ROOT.kSpring+2,
-                'style': 5
-            },
-            '6000fb': {
-                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
-                'exp':   'Exp_PureHiggsino_DTRun2',
-                'obs':   None,
-                'color': ROOT.kSpring+2,
-                'style': 8
-            },            
+            #'400fb': {
+            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results400infb.root',
+            #    'exp':   'Exp_PureHiggsino_DTRun2',
+            #    'obs':   None,
+            #    'color': ROOT.kSpring+2,
+            #    'style': 7
+            #},
+            #'3000fb': {
+            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results3000infb.root',
+            #    'exp':   'Exp_PureHiggsino_DTRun2',
+            #    'obs':   None,
+            #    'color': ROOT.kSpring+2,
+            #    'style': 5
+            #},
+            #'6000fb': {
+            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
+            #    'exp':   'Exp_PureHiggsino_DTRun2',
+            #    'obs':   None,
+            #    'color': ROOT.kSpring+2,
+            #    'style': 8
+            #},            
         },
         '#splitline{Isolated Soft Track}{SUS-24-012}': {
             'Run2': {
@@ -158,6 +159,11 @@ def main():
             lstyle= scenario_dict['style']
 
             if scenario_name != 'Run2': scenario_lines[scenario_name] = lstyle
+            if UseYR2018:
+                
+                path = path.replace('infb.root','infb_YR2018.root')
+                
+                print('replaced, so', path)
 
             f = ROOT.TFile.Open(path)
             
@@ -246,18 +252,22 @@ def main():
         dmrad_chipm_chi10.SetLineColor(ROOT.kRed)
         dmrad_chipm_chi10.SetLineWidth(2)
         dmrad_chipm_chi10.SetLineStyle(ROOT.kDotted-1)
-        print('radiative style', ROOT.kDotted)
         dmrad_chipm_chi10.Draw('same')
         legend.AddEntry(dmrad_chipm_chi10, "Radiative corrections", "l")
 
     if doHLLHC:
+        tl.SetTextSize(0.5*tl.GetTextSize())
+        if UseYR2018: tl.DrawLatex(0.4,0.85,'with YR18 syst. uncert.')
+        else: tl.DrawLatex(0.4,0.85,'with Run 2 syst. uncert.')
+        tl.SetTextSize(2*tl.GetTextSize())  
         stamp('','data',False)
     else:
         stamp()
 
     plotstem = 'summary_ewk_projections'
     if doHLLHC:
-        plotstem += '_HLLHC'
+        if UseYR2018: plotstem += '_YR2018'
+        else: plotstem += '_HLLHC'
     canvas.SaveAs(plotstem+".pdf")
     canvas.SaveAs(plotstem+".png")
 

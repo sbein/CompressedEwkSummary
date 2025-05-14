@@ -18,10 +18,10 @@ def main():
     #analyses['#splitline{Recursive Jigsaw}{SUS-23-004}'] = ['results_sus_23_004/B135_bugfix16_HinoN2C1Super_xsec_smooth_canv.root', 'gr_mid', 'gr_obs', ROOT.kGray]
     analyses['#splitline{Soft lepton+track}{SUS-24-003}'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kViolet]
     #analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kRed]
-    analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
+    #analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
     
     if 'Recursive Jigsaw' in ','.join(list(analyses.keys())): xmax, ymax = 300, 100
-    else: xmax, ymax = 250, 5
+    else: xmax, ymax = 250, 4
     
     analysis_names = list(analyses.keys())
     analysis_names.reverse()
@@ -160,7 +160,7 @@ def main():
         stamp(3000)
     else: 
         stamp()
-    plotstem = 'summary_ewk_compressed'+'_HLLHC'*doHLLHC
+    plotstem = 'summary_ewk_compressed_ZoomYuval'+'_HLLHC'*doHLLHC
     canvas.SaveAs(plotstem+".pdf")
     canvas.SaveAs(plotstem+".png")
 
@@ -182,7 +182,7 @@ def stamp(lumi='129-138', datamc_ = 'data', showlumi = True, WorkInProgress = Fa
     tl.SetTextSize(0.75/1.1*tl.GetTextSize())
     xlab = 0.205
     if ('mc' in datamc): thing = 'simulation'
-    else: thing = 'Preliminary'
+    else: thing = 'Preliminary'#'Private'#
     if WorkInProgress: tl.DrawLatex(xlab,0.91, ' internal')
     else: tl.DrawLatex(xlab,0.85, thing)
     tl.SetTextFont(regularfont)
