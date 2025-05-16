@@ -15,12 +15,13 @@ def main():
     analyses = {}
     analyses['#splitline{Disappearing Track}{arXiv:2309.16823}'] = ['results_sus_21_006/PureHiggsino_DTRun2_results.root', 'Exp_PureHiggsino_DTRun2', 'Obs_PureHiggsino_DTRun2', ROOT.kSpring+2]#ROOT.kViolet-1 
     analyses['#splitline{Isolated Soft Track}{SUS-24-012}'] = ['results_sus_24_012/PureHiggsino_SDPRun2_results.root', 'Exp_PureHiggsino_SDPRun2', 'Obs_PureHiggsino_SDPRun2', ROOT.kOrange-1]#ROOT.kGreen-1 
-    analyses['#splitline{Recursive Jigsaw}{SUS-23-004}'] = ['results_sus_23_004/B135_bugfix16_HinoN2C1Super_xsec_smooth_canv.root', 'gr_mid', 'gr_obs', ROOT.kGray]
+    #analyses['#splitline{Recursive Jigsaw}{SUS-23-004}'] = ['results_sus_23_004/B135_bugfix16_HinoN2C1Super_xsec_smooth_canv.root', 'gr_mid', 'gr_obs', ROOT.kGray]
+    analyses['#splitline{Soft lepton+track}{SUS-24-003}'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kViolet]
     #analyses['SUS-24-003'] = ['results_sus_24_003/PureHiggsino_spdl_Run2comb_results.root', 'Exp_PureHiggsino_spdl_comb', 'Obs_PureHiggsino_spdl_comb', ROOT.kRed]
-    analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
+    #analyses['#splitline{Soft 2l and 3l}{EXO-23-017}'] = ['results_exo_23_017/h2lim_20250226_Hino_neg_allEEMM_neg_0.0_log_smooth1k5a_dMc1n1.root', 'limitGraph_0', 'limitGraph_obs', ROOT.kAzure-9]
     
     if 'Recursive Jigsaw' in ','.join(list(analyses.keys())): xmax, ymax = 300, 100
-    else: xmax, ymax = 250, 5
+    else: xmax, ymax = 250, 4
     
     analysis_names = list(analyses.keys())
     analysis_names.reverse()
@@ -36,9 +37,8 @@ def main():
     canvas.SetTopMargin(1.3)
     
     mg = ROOT.TMultiGraph()
-    #legend0 = ROOT.TLegend(0.12, 0.65, 0.20, 0.83)
-    legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89)
-    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, #tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
+    legend0 = ROOT.TLegend(0.12, 0.88, 0.80, 0.98)
+    legend0.SetHeader("#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, #tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, #tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + 2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}","L")
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
@@ -51,7 +51,7 @@ def main():
     dummyExp.SetLineStyle(2)            # dashed
     dummyExp.SetLineColor(ROOT.kBlack)  # black line
     dummyExp.SetLineWidth(2)
-    legend = ROOT.TLegend(0.635, 0.37-0.035*(len(analyses)-2) -0.06, 0.905, 0.65+0.035*(len(analyses)-2))
+    legend = ROOT.TLegend(0.635, 0.45-0.035*(len(analyses)-2) -0.06, 0.905, 0.67+0.035*(len(analyses)-2))
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)
@@ -67,7 +67,7 @@ def main():
     base_hist.GetXaxis().SetLabelSize(0.0425)  
     base_hist.GetYaxis().SetLabelSize(0.0425)
     base_hist.GetXaxis().SetRangeUser(100,250)
-    if len(analyses)>3: base_hist.GetXaxis().SetRangeUser(100,300)
+    if 'Recursive Jigsaw' in ','.join(list(analyses.keys())): base_hist.GetXaxis().SetRangeUser(100,300)
     base_hist.GetYaxis().SetTitleOffset(0.9)
     base_hist.GetYaxis().SetMoreLogLabels(True)
     base_hist.GetYaxis().SetNoExponent(True)
@@ -90,15 +90,16 @@ def main():
         gexp.SetLineWidth(3)
         mg.Add(gexp)            
         #legend.AddEntry(gexp, "%s Expected" % analysis_name, "l")            
-        if obj=='': gobs = None
+        if obj=='':
+            gobs = None
         else: 
             gobs = file.Get(obj)
             gobs.SetLineColor(color)
-            #gobs.SetLineStyle(1)   
             gobs.SetLineWidth(3)
             gobs.SetFillColorAlpha(color, 0.35)
             # a dirty way to fill the are for the first analysis curve
-            if first:
+            if first and 'disappearing' in analysis_name.lower():
+                first = False
                 N = gobs.GetN()
                 gobsFilled = ROOT.TGraph(N+2)
                 for j in range(N):
@@ -159,7 +160,7 @@ def main():
         stamp(3000)
     else: 
         stamp()
-    plotstem = 'summary_ewk_compressed'+'_HLLHC'*doHLLHC
+    plotstem = 'summary_ewk_compressed_ZoomYuval'+'_HLLHC'*doHLLHC
     canvas.SaveAs(plotstem+".pdf")
     canvas.SaveAs(plotstem+".png")
 
@@ -181,7 +182,7 @@ def stamp(lumi='129-138', datamc_ = 'data', showlumi = True, WorkInProgress = Fa
     tl.SetTextSize(0.75/1.1*tl.GetTextSize())
     xlab = 0.205
     if ('mc' in datamc): thing = 'simulation'
-    else: thing = 'Preliminary'
+    else: thing = 'Preliminary'#'Private'#
     if WorkInProgress: tl.DrawLatex(xlab,0.91, ' internal')
     else: tl.DrawLatex(xlab,0.85, thing)
     tl.SetTextFont(regularfont)
