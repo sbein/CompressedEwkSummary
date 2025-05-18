@@ -21,27 +21,27 @@ def main():
                 'color': ROOT.kSpring+2,
                 'style': 1
             },
-            #'400fb': {
-            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results400infb.root',
-            #    'exp':   'Exp_PureHiggsino_DTRun2',
-            #    'obs':   None,
-            #    'color': ROOT.kSpring+2,
-            #    'style': 7
-            #},
-            #'3000fb': {
-            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results3000infb.root',
-            #    'exp':   'Exp_PureHiggsino_DTRun2',
-            #    'obs':   None,
-            #    'color': ROOT.kSpring+2,
-            #    'style': 5
-            #},
-            #'6000fb': {
-            #    'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
-            #    'exp':   'Exp_PureHiggsino_DTRun2',
-            #    'obs':   None,
-            #    'color': ROOT.kSpring+2,
-            #    'style': 8
-            #},            
+            '400fb': {
+                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results400infb.root',
+                'exp':   'Exp_PureHiggsino_DTRun2',
+                'obs':   None,
+                'color': ROOT.kSpring+2,
+                'style': 7
+            },
+            '3000fb': {
+                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results3000infb.root',
+                'exp':   'Exp_PureHiggsino_DTRun2',
+                'obs':   None,
+                'color': ROOT.kSpring+2,
+                'style': 5
+            },
+            '6000fb': {
+                'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
+                'exp':   'Exp_PureHiggsino_DTRun2',
+                'obs':   None,
+                'color': ROOT.kSpring+2,
+                'style': 8
+            },            
         },
         '#splitline{Isolated Soft Track}{SUS-24-012}': {
             'Run2': {
