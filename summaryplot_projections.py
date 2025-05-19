@@ -9,7 +9,7 @@ tl.SetNDC()
 
 doHLLHC = True
 drawRadiativeBound = True
-UseYR2018 = True
+UseYR2018 = False
 
 def main():
     analyses = {
@@ -82,27 +82,21 @@ def main():
                 'style': 1
             },
             '400fb': {
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/higgsino_Run2_Run3_halfsmooth_final/extracted_400fb.root', ## NPS workshop
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_400fb.root', ## no smooth
-                'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_400fb_k5a.root', ## k5a
+                'file':  'results_exo_23_017/extracted_400infb.root',
                 'exp':   'limitGraph_0',
                 'obs':   None,
                 'color': ROOT.kAzure-9,
                 'style': 7
             },
             '3000fb': {
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v3/extracted_3000fb.root', ## NPS workshop
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_3000fb.root', ## no smooth
-                'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_3000fb_k5a.root', ## k5a
+                'file':  'results_exo_23_017/extracted_3000infb.root',
                 'exp':   'limitGraph_0',
                 'obs':   None,
                 'color': ROOT.kAzure-9,
                 'style': 5
             },
             '6000fb': {
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v3/extracted_6000fb.root', ## NPS workshop
-                #'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_6000fb.root', ## no smooth
-                'file':  '/eos/user/k/kpanos/www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats/extracted_6000fb_k5a.root', ## k5a
+                'file':  'results_exo_23_017/extracted_6000infb.root',
                 'exp':   'limitGraph_0',
                 'obs':   None,
                 'color': ROOT.kAzure-9,
@@ -204,9 +198,7 @@ def main():
 
             if scenario_name != 'Run2': scenario_lines[scenario_name] = lstyle
             if UseYR2018:
-                
                 path = path.replace('infb.root','infb_YR2018.root')
-                
                 print('replaced, so', path)
 
             f = ROOT.TFile.Open(path)
@@ -308,17 +300,9 @@ def main():
     else:
         stamp()
 
-    plotstem = '{}/{}/summary_ewk_projections'.format(os.getenv("EOS_USER_PATH"),
-                                                      'www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats')
-    if 'k5a' in analyses['#splitline{Soft 2l and 3l}{EXO-23-017}']['400fb']['file']:
-        plotstem = '{}/{}/summary_ewk_projections_smoothed'.format(os.getenv("EOS_USER_PATH"),
-                                                                   'www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats')        
+    plotstem = 'summary_ewk_projections'
     if ymax == 5:
-        plotstem = '{}/{}/summary_ewk_projections_dM5'.format(os.getenv("EOS_USER_PATH"),
-                                                              'www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats')
-        if 'k5a' in analyses['#splitline{Soft 2l and 3l}{EXO-23-017}']['400fb']['file']:
-            plotstem = '{}/{}/summary_ewk_projections_dM5_smoothed'.format(os.getenv("EOS_USER_PATH"),
-                                                                           'www/SOS/displaced_Projections_ECFA/summary_ewk_projections_v5_fullstats')        
+        plotstem = 'summary_ewk_projections_dM5'
     if doHLLHC:
         if UseYR2018: plotstem += '_YR2018'
         else: plotstem += '_HLLHC'
