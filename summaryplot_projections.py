@@ -9,7 +9,7 @@ tl.SetNDC()
 
 doHLLHC = True
 drawRadiativeBound = True
-UseYR2018 = True
+UseYR2018 = False
 
 def main():
     analyses = {
@@ -80,6 +80,27 @@ def main():
                 'obs':   'limitGraph_obs',
                 'color': ROOT.kAzure-9,
                 'style': 1
+            },
+            '400fb': {
+                'file':  'results_exo_23_017/extracted_400infb.root',
+                'exp':   'limitGraph_0',
+                'obs':   None,
+                'color': ROOT.kAzure-9,
+                'style': 7
+            },
+            '3000fb': {
+                'file':  'results_exo_23_017/extracted_3000infb.root',
+                'exp':   'limitGraph_0',
+                'obs':   None,
+                'color': ROOT.kAzure-9,
+                'style': 5
+            },
+            '6000fb': {
+                'file':  'results_exo_23_017/extracted_6000infb.root',
+                'exp':   'limitGraph_0',
+                'obs':   None,
+                'color': ROOT.kAzure-9,
+                'style': 8
             }
         },
     }
@@ -90,7 +111,8 @@ def main():
     if 'Recursive Jigsaw' in ','.join(all_labels):
         xmax, ymax = 300, 100
     else:
-        xmax, ymax = 480, 8
+        xmax, ymax = 480, 5
+        #xmax, ymax = 480, 50
 
     # Reverse so the last one in dictionary is drawn on top
     all_labels.reverse()
@@ -106,7 +128,7 @@ def main():
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)    
 
-    legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89)
+    legend0 = ROOT.TLegend(0.12, 0.995, 0.30, 0.89)
     legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, "
                       "#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, "
                       "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}"
@@ -117,6 +139,9 @@ def main():
     legend0.SetTextSize(0.03)
     legend0.SetTextFont(62)
 
+    #canvas.SetBottomMargin(0.03)
+    #canvas.SetTopMargin(0.1)
+
     basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
     aux_hist = basefile.Get('basehist')
     base_hist = ROOT.TH2F("", "", 
@@ -126,20 +151,33 @@ def main():
                           100*aux_hist.GetYaxis().GetNbins(),
                           aux_hist.GetYaxis().GetBinLowEdge(1),
                           ymax)
+    base_hist.Print()
+    print("nbins {}:{}".format(
+        100*aux_hist.GetXaxis().GetNbins(),
+        100*aux_hist.GetYaxis().GetNbins()))
+    print("left-low {}:{}".format(
+        aux_hist.GetXaxis().GetBinLowEdge(1),
+        aux_hist.GetYaxis().GetBinLowEdge(1)))
+    print("right-up {}:{}".format(xmax,ymax))
     matchHistos(base_hist, aux_hist)
     base_hist.GetYaxis().SetRangeUser(0.135, 100.0)
     base_hist.GetYaxis().SetNdivisions(505)
     base_hist.GetXaxis().SetNdivisions(505)
-    base_hist.GetXaxis().SetLabelSize(0.0425)
-    base_hist.GetYaxis().SetLabelSize(0.0425)
+    base_hist.GetXaxis().SetLabelSize(0.037)
+    base_hist.GetYaxis().SetLabelSize(0.037)
+    base_hist.GetXaxis().SetTitleSize(0.04)
+    base_hist.GetYaxis().SetTitleSize(0.04)
     base_hist.GetXaxis().SetRangeUser(99, xmax)
-    base_hist.GetYaxis().SetTitleOffset(0.9)
+    base_hist.GetXaxis().SetTitleOffset(0.9)
     base_hist.GetYaxis().SetMoreLogLabels(True)
     base_hist.GetYaxis().SetNoExponent(True)
 
     if doHLLHC:
         base_hist.GetXaxis().SetRangeUser(99, xmax)
-        base_hist.GetYaxis().SetTitleOffset(1.0)
+        base_hist.GetYaxis().SetRangeUser(0.135, ymax)
+        base_hist.GetYaxis().SetTitleOffset(-1.2)
+        base_hist.GetYaxis().SetLabelOffset(-0.0275)
+        base_hist.GetYaxis().SetTickLength(0.025)
 
     base_hist.GetXaxis().SetTitle('m_{#tilde{#chi}^{#pm}_{1}} [GeV]')
     base_hist.GetYaxis().SetTitle('#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1}) [GeV]')
@@ -160,9 +198,7 @@ def main():
 
             if scenario_name != 'Run2': scenario_lines[scenario_name] = lstyle
             if UseYR2018:
-                
                 path = path.replace('infb.root','infb_YR2018.root')
-                
                 print('replaced, so', path)
 
             f = ROOT.TFile.Open(path)
@@ -265,6 +301,8 @@ def main():
         stamp()
 
     plotstem = 'summary_ewk_projections'
+    if ymax == 5:
+        plotstem = 'summary_ewk_projections_dM5'
     if doHLLHC:
         if UseYR2018: plotstem += '_YR2018'
         else: plotstem += '_HLLHC'
