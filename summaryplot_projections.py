@@ -33,7 +33,7 @@ def main():
                 'exp':   'Exp_PureHiggsino_DTRun2',
                 'obs':   None,
                 'color': ROOT.kSpring+2,
-                'style': 5
+                'style': 9
             },
             '6000fb': {
                 'file':  'results_sus_21_006/PureHiggsino_DTRun2_results6000infb.root',
@@ -63,7 +63,7 @@ def main():
                 'exp':   'Exp_PureHiggsino_SDPRun2',
                 'obs':   None,
                 'color': ROOT.kOrange-1,
-                'style': 5
+                'style': 9
             },
             '6000fb': {
                 'file':  'results_sus_24_012/PureHiggsino_SDPRun2_results6000infb.root',
@@ -93,7 +93,7 @@ def main():
                 'exp':   'limitGraph_0',
                 'obs':   None,
                 'color': ROOT.kAzure-9,
-                'style': 5
+                'style': 9
             },
             '6000fb': {
                 'file':  'results_exo_23_017/extracted_6000infb.root',
@@ -111,7 +111,8 @@ def main():
     if 'Recursive Jigsaw' in ','.join(all_labels):
         xmax, ymax = 300, 100
     else:
-        xmax, ymax = 480, 5
+        #xmax, ymax = 480, 8 # 2-lines
+        xmax, ymax = 480, 5 # 1-line
         #xmax, ymax = 480, 50
 
     # Reverse so the last one in dictionary is drawn on top
@@ -128,19 +129,22 @@ def main():
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)    
 
-    legend0 = ROOT.TLegend(0.12, 0.995, 0.30, 0.89)
-    legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, "
+    #legend0 = ROOT.TLegend(0.12, 0.64, 0.30, 0.89) # 2-lines
+    legend0 = ROOT.TLegend(0.095, 0.98, 0.30, 0.89) # 1-line
+    # legend0.SetHeader("#splitline{#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, "
+    #                   "#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, "
+    #                   "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}"
+    #                   "{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + "
+    #                   "2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L") ## 2-lines
+    legend0.SetHeader("#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, "
                       "#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, "
-                      "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}"
-                      "{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + "
-                      "2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L")
+                      "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}, "
+                      "#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + "
+                      "2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}","L") ## 1-line
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
     legend0.SetTextFont(62)
-
-    #canvas.SetBottomMargin(0.03)
-    #canvas.SetTopMargin(0.1)
 
     basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
     aux_hist = basefile.Get('basehist')
