@@ -261,8 +261,9 @@ def main():
     dummyExp.SetLineStyle(2)
     dummyExp.SetLineColor(ROOT.kBlack)
     dummyExp.SetLineWidth(2)
-    legend.AddEntry(dummyObs, "Observed Limit 138 fb^{-1}", "lf")
-    legend.AddEntry(dummyExp, "Expected Limit 138 fb^{-1}", "l")
+    legend.SetTextSize(0.022)
+    legend.AddEntry(dummyObs, "#splitline{Observed (138 fb^{-1})}{95% CL Upper Limit}", "lf")
+    legend.AddEntry(dummyExp, "#splitline{Expected (138 fb^{-1})}{95% CL Upper Limit}", "l")
     
     dummies = []
     for sc_name in scenario_lines.keys():
@@ -270,13 +271,13 @@ def main():
             label = sc_name.replace('fb','')
             label += ' fb^{-1}'
         else: label = sc_name
-        print('setting', 'Expected '+label, sc_name, scenario_lines[sc_name])
+        print('setting', 'Expected CL Upper Limit '+label, sc_name, scenario_lines[sc_name])
         d = ROOT.TH1F("dummy_"+sc_name, "", 1, 0, 1)
         dummies.append(d)
         dummies[-1].SetLineWidth(3)
         dummies[-1].SetLineStyle(scenario_lines[sc_name])
         dummies[-1].SetLineColor(ROOT.kGray+2)
-        legend.AddEntry(d, 'Expected '+label, "l") 
+        legend.AddEntry(d, '#splitline{Expected ('+label+')}{95% CL Upper Limit}', "l")
         
     canvas.cd()
     canvas.SetLogy()
@@ -285,6 +286,20 @@ def main():
     legend0.Draw()
     legend.Draw()
 
+    canvas.Update() # update user-coordinates before reding Ux/Uy
+    pad_xmin = canvas.GetUxmin()
+    pad_xmax = xmax
+    pad_ymax = ymax
+    xmin = base_hist.GetXaxis().GetXmin()
+    xmax = base_hist.GetXaxis().GetXmax()
+    print "pad_xmin, pad_ymax, pad_xmax, pad_ymax, xmin, xmax"
+    print pad_xmin, pad_ymax, pad_xmax, pad_ymax, xmin, xmax
+    top_axis = ROOT.TGaxis(pad_xmin, pad_ymax, pad_xmax, pad_ymax,
+                           xmin, xmax, base_hist.GetXaxis().GetNdivisions(), "-")
+    top_axis.SetTickLength(-0.03)
+    top_axis.SetLabelSize(0)
+    top_axis.SetTitle('')
+    top_axis.Draw('same')
 
     if drawRadiativeBound:
         fsatoshi = ROOT.TFile('auxiliary/SatoshiDmChipmChi10.root')
