@@ -1,6 +1,7 @@
 import ROOT
 ROOT.gROOT.SetBatch(1)
 import os
+from datetime import date
 from array import array
 ROOT.gStyle.SetOptStat(0)
 
@@ -146,6 +147,13 @@ def main():
     legend0.SetTextSize(0.03)
     legend0.SetTextFont(62)
 
+    date_legend = ROOT.TLegend(0.803, 0.98, 1.0, 0.89) # 1-line
+    date_legend.SetHeader(date.today().strftime("%B %Y"))
+    date_legend.SetBorderSize(0)
+    date_legend.SetFillStyle(0)
+    date_legend.SetTextSize(0.03)
+    date_legend.SetTextFont(62)
+    
     basefile = ROOT.TFile.Open('results_sus_24_003/PureHiggsino_SoftPromptRun2_18Nov2024HLLHCXSEC.root')
     aux_hist = basefile.Get('basehist')
     base_hist = ROOT.TH2F("", "", 
@@ -285,6 +293,7 @@ def main():
     mg.Draw("L")
     legend0.Draw()
     legend.Draw()
+    date_legend.Draw()
 
     canvas.Update() # update user-coordinates before reding Ux/Uy
     pad_xmin = canvas.GetUxmin()
