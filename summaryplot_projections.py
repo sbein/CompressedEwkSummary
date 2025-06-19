@@ -124,8 +124,10 @@ def main():
     canvas.SetTopMargin(1.3)
     mg = ROOT.TMultiGraph()
 
-    legend = ROOT.TLegend(0.61, 0.45 - 0.035*(len(all_labels)-2) - 0.06,
-                          0.9, 0.85 + 0.035*(len(all_labels)-2))
+    legend = ROOT.TLegend(0.67,                                     #x1
+                          0.45 - 0.035*(len(all_labels)-2) - 0.06,  #y1
+                          0.9,                                      #x2
+                          0.83 + 0.035*(len(all_labels)-2))         #y2
     legend.SetBorderSize(0)
     legend.SetFillStyle(0)
     legend.SetTextSize(0.03)    
@@ -136,12 +138,12 @@ def main():
     #                   "#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, "
     #                   "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}}"
     #                   "{#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + "
-    #                   "2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L") ## 2-lines
+    #                   "2#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}}","L") ## 2-lines
     legend0.SetHeader("#bf{pp#rightarrow#tilde{#chi}^{0}_{2}#tilde{#chi}^{#pm}_{1}, "
                       "#tilde{#chi}^{0}_{2}#tilde{#chi}^{0}_{1}, #tilde{#chi}^{+}_{1}#tilde{#chi}^{-}_{1}, "
                       "#tilde{#chi}^{#pm}_{1}#tilde{#chi}^{0}_{1} (Higgsino)}, "
                       "#bf{m(#tilde{#chi}^{0}_{2}) = m(#tilde{#chi}^{0}_{1}) + "
-                      "2#Delta m(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}","L") ## 1-line
+                      "2#Deltam(#tilde{#chi}^{#pm}_{1},#tilde{#chi}^{0}_{1})}","L") ## 1-line
     legend0.SetBorderSize(0)
     legend0.SetFillStyle(0)
     legend0.SetTextSize(0.03)
@@ -299,16 +301,28 @@ def main():
     pad_xmin = canvas.GetUxmin()
     pad_xmax = xmax
     pad_ymax = ymax
-    xmin = base_hist.GetXaxis().GetXmin()
-    xmax = base_hist.GetXaxis().GetXmax()
-    print "pad_xmin, pad_ymax, pad_xmax, pad_ymax, xmin, xmax"
-    print pad_xmin, pad_ymax, pad_xmax, pad_ymax, xmin, xmax
+    print "--- Top Axis"
+    print "pad_xmin, pad_ymax, pad_xmax, pad_ymax, xmin (range), xmax (range)"
+    print pad_xmin, pad_ymax, pad_xmax, pad_ymax, pad_xmin, pad_xmax
     top_axis = ROOT.TGaxis(pad_xmin, pad_ymax, pad_xmax, pad_ymax,
-                           xmin, xmax, base_hist.GetXaxis().GetNdivisions(), "-")
+                           pad_xmin, pad_xmax, base_hist.GetXaxis().GetNdivisions(), "-")
     top_axis.SetTickLength(-0.03)
     top_axis.SetLabelSize(0)
     top_axis.SetTitle('')
     top_axis.Draw('same')
+
+    canvas.Update() # update user-coordinates before reding Ux/Uy
+    pad_xmin = canvas.GetUxmin()
+    pad_xmax = xmax
+    pad_ymin = canvas.GetUymin()
+    print "--- Bottom Axis"
+    print "pad_xmin, pad_ymin, pad_xmax, pad_ymin, xmin (range), xmax (range)"
+    print pad_xmin, pad_ymin, pad_xmax, pad_ymin, pad_xmin, pad_xmax
+    bottom_axis = ROOT.TGaxis(pad_xmin, pad_ymin, pad_xmax, pad_ymin,
+                              pad_xmin, pad_xmax, base_hist.GetXaxis().GetNdivisions(), "+")
+    bottom_axis.SetLabelSize(0)
+    bottom_axis.SetTitle('')
+    bottom_axis.Draw('same')
 
     if drawRadiativeBound:
         fsatoshi = ROOT.TFile('auxiliary/SatoshiDmChipmChi10.root')
@@ -321,8 +335,8 @@ def main():
 
     if doHLLHC:
         tl.SetTextSize(0.5*tl.GetTextSize())
-        if UseYR2018: tl.DrawLatex(0.4,0.85,'with YR18 syst. uncert.')
-        else: tl.DrawLatex(0.4,0.85,'with Run 2 syst. uncert.')
+        if UseYR2018: tl.DrawLatex(0.4,0.83,'with YR18 syst. uncert.')
+        else: tl.DrawLatex(0.4,0.83,'with Run 2 syst. uncert.')
         tl.SetTextSize(2*tl.GetTextSize())  
         stamp('','data',False)
     else:
@@ -345,13 +359,14 @@ def stamp(lumi='129-138', datamc_='data', showlumi=True):
     original_size = tl.GetTextSize()
     tl.SetTextFont(cmsTextFont)
     tl.SetTextSize(1.1 * original_size)
-    tl.DrawLatex(0.12, 0.85, 'CMS')
+    tl.DrawLatex(0.12, 0.83, 'CMS')
 
     tl.SetTextFont(extraTextFont)
     tl.SetTextSize(0.75/1.1 * original_size)
+    #tl.SetTextSize(1.1 * original_size)
     xlab = 0.205
     thing = 'simulation' if ('mc' in datamc) else 'Preliminary'
-    tl.DrawLatex(xlab, 0.85, thing)
+    tl.DrawLatex(xlab, 0.83, thing)
 
     tl.SetTextFont(regularfont)
     tl.SetTextSize(0.81 * tl.GetTextSize())
