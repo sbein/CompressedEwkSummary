@@ -9,7 +9,7 @@ tl.SetNDC()
 
 doHLLHC = True
 drawRadiativeBound = True
-UseYR2018 = True
+UseYR2018 = False
 
 def main():
     analyses = {
